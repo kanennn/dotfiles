@@ -1,11 +1,11 @@
 import Quickshell
-import QtQuick.Layouts
 import QtQuick
 import QtQuick.Effects
 import Quickshell.Hyprland
+import Quickshell.Services.UPower
 
 ShellRoot {
-
+    property int edge: 7
     property color main: "#FFFFFF"
     property color next: "#AAAAAA"
 
@@ -56,12 +56,12 @@ ShellRoot {
 
                 Rectangle {
                     anchors.fill: parent
-                    anchors.topMargin: 10
-                    anchors.leftMargin: 10
-                    anchors.rightMargin: 10
-                    anchors.bottomMargin: 10
+                    anchors.topMargin: edge
+                    anchors.leftMargin: edge
+                    anchors.rightMargin: edge
+                    anchors.bottomMargin: edge
 
-                    radius: 18
+                    radius: 30
                 }
             }
         }
@@ -77,38 +77,107 @@ ShellRoot {
         implicitHeight: 32
         color: main
 
-        RowLayout {
-            id: right
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.rightMargin: 20
-            spacing: 10
+        Item {
+            id: barlayout
+            anchors.fill: parent
+            anchors.topMargin: edge
+            anchors.leftMargin: 2 * edge
+            anchors.rightMargin: 2 * edge
+            //spacing: 10
 
-            Repeater {
-                model: 10
-                Rectangle {
-                    width: 10
-                    height: 10
-                    color: next
+            Item {
+                id: notch
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    top: parent.top
+                }
+                implicitWidth: 184
+            }
+            Row {
+                spacing: 5
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                anchors.leftMargin: 5
+                Repeater {
+                    model: Hyprland.workspaces
+                    delegate: Rectangle {
+                        radius: 12
+                        width: Hyprland.focusedWorkspace === modelData ? 40 : 20
+                        height: parent.height
+                        color: Hyprland.focusedWorkspace === modelData ? "tomato" : "lightpink"
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: modelData.id
+                            color: "white"
+                        }
+                    }
                 }
             }
-        }
+            Rectangle {
+                anchors {
+                    left: notch.right
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                anchors.leftMargin: 10
+                radius: 12
+                width: 50
+                height: parent.height
+                color: "pink"
+                Text {
+                    anchors.centerIn: parent
+                    text: Math.round(UPower.displayDevice.percentage * 100) + "%"
+                    color: "white"
+                }
+            }
+            SystemClock {
+                id: clock
+                precision: SystemClock.Seconds
+            }
+            Rectangle {
+                anchors {
+                    right: parent.right
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                MouseArea {
+                    id: clockarea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
+                anchors.rightMargin: 10
+                radius: 12
+                width: 70
+                height: parent.height
+                color: "pink"
+                Text {
+                    anchors.centerIn: parent
+                    text: clockarea.containsMouse ? Qt.formatDateTime(clock.date, "hh:mm:ss") : Qt.formatDateTime(clock.date, "hh:mm")
+                    color: "white"
+                }
+            }
 
-        RowLayout {
-            id: left
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.leftMargin: 20
-            spacing: 10
+            Rectangle {
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    right: notch.left
+                }
+                anchors.rightMargin: 10
+                radius: 12
+                width: innerText.width + 20
+                color: "tomato"
 
-            Repeater {
-                model: 10
-                Rectangle {
-                    width: 10
-                    height: 10
-                    color: next
+                Text {
+                    id: innerText
+                    text: Hyprland.activeToplevel.title
+                    color: main
+                    anchors.centerIn: parent
                 }
             }
         }
