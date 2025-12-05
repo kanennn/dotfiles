@@ -6,8 +6,18 @@ import Quickshell.Services.UPower
 
 ShellRoot {
     property int edge: 7
-    property color main: "#FFFFFF"
-    property color next: "#AAAAAA"
+    property color light: "#FFFFFF"
+    property color shadow: "#666666"
+    property color fog: "#EEEEEE"
+
+    readonly property font f: ({
+            family: "FiraCodeNerdFont",
+            pointSize: 12
+        })
+    readonly property font fs: ({
+            family: "FiraCodeNerdFont",
+            pointSize: 10
+        })
 
     PanelWindow {
         id: root
@@ -81,9 +91,8 @@ ShellRoot {
             id: barlayout
             anchors.fill: parent
             anchors.topMargin: edge
-            anchors.leftMargin: 2 * edge
-            anchors.rightMargin: 2 * edge
-            //spacing: 10
+            anchors.leftMargin: 3 * edge
+            anchors.rightMargin: 3 * edge
 
             Item {
                 id: notch
@@ -94,30 +103,36 @@ ShellRoot {
                 }
                 implicitWidth: 184
             }
+
+            // Workspaces
             Row {
-                spacing: 5
                 anchors {
                     left: parent.left
                     top: parent.top
                     bottom: parent.bottom
+                    margins: 1
                 }
-                anchors.leftMargin: 5
+
+                spacing: 5
                 Repeater {
                     model: Hyprland.workspaces
                     delegate: Rectangle {
-                        radius: 12
-                        width: Hyprland.focusedWorkspace === modelData ? 40 : 20
+                        radius: 10
+                        width: Hyprland.focusedWorkspace === modelData ? parent.height * 1.7 : parent.height
                         height: parent.height
-                        color: Hyprland.focusedWorkspace === modelData ? "tomato" : "lightpink"
+                        color: Hyprland.focusedWorkspace === modelData ? shadow : fog
 
                         Text {
                             anchors.centerIn: parent
                             text: modelData.id
-                            color: "white"
+                            font: fs
+                            color: Hyprland.focusedWorkspace === modelData ? light : shadow
                         }
                     }
                 }
             }
+
+            // BATTERY
             Rectangle {
                 anchors {
                     left: notch.right
@@ -128,13 +143,16 @@ ShellRoot {
                 radius: 12
                 width: 50
                 height: parent.height
-                color: "pink"
+                color: fog
                 Text {
                     anchors.centerIn: parent
+                    font: f
                     text: Math.round(UPower.displayDevice.percentage * 100) + "%"
-                    color: "white"
+                    color: shadow
                 }
             }
+
+            // CLOCK
             SystemClock {
                 id: clock
                 precision: SystemClock.Seconds
@@ -151,17 +169,21 @@ ShellRoot {
                     hoverEnabled: true
                 }
                 anchors.rightMargin: 10
-                radius: 12
-                width: 70
+                radius: 7
+                implicitWidth: time.implicitWidth + 5 * time.anchors.margins
                 height: parent.height
-                color: "pink"
+                color: fog
                 Text {
+                    id: time
+                    anchors.margins: 3
                     anchors.centerIn: parent
+                    font: f
                     text: clockarea.containsMouse ? Qt.formatDateTime(clock.date, "hh:mm:ss") : Qt.formatDateTime(clock.date, "hh:mm")
-                    color: "white"
+                    color: shadow
                 }
             }
 
+            // WINDOW
             Rectangle {
                 anchors {
                     top: parent.top
@@ -171,12 +193,13 @@ ShellRoot {
                 anchors.rightMargin: 10
                 radius: 12
                 width: innerText.width + 20
-                color: "tomato"
+                color: fog
 
                 Text {
                     id: innerText
+                    font: f
                     text: Hyprland.activeToplevel.title
-                    color: main
+                    color: shadow
                     anchors.centerIn: parent
                 }
             }
