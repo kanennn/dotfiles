@@ -5,6 +5,7 @@ import Quickshell.Hyprland
 import Quickshell.Wayland
 import Quickshell.Services.UPower
 import Quickshell.Services.Mpris
+import Quickshell.Services.Pipewire
 
 ShellRoot {
     property int edge: 7
@@ -42,7 +43,7 @@ ShellRoot {
             Rectangle {
                 anchors.fill: parent
 
-                color: main
+                color: light
 
                 layer.enabled: true
 
@@ -83,7 +84,7 @@ ShellRoot {
             right: true
         }
         implicitHeight: 32
-        color: main
+        color: light
 
         Item {
             id: barlayout
@@ -115,10 +116,20 @@ ShellRoot {
                 Repeater {
                     model: Hyprland.workspaces
                     delegate: Rectangle {
+                        id: space
                         radius: 10
                         width: Hyprland.focusedWorkspace === modelData ? parent.height * 1.7 : parent.height
                         height: parent.height
                         color: Hyprland.focusedWorkspace === modelData ? shadow : fog
+
+                        transitions: Transition {
+                            NumberAnimation {
+                                target: space
+                                property: "width"
+                                //easing.type: Easing.InOutQuad
+                                duration: 500
+                            }
+                        }
 
                         Text {
                             anchors.centerIn: parent
@@ -160,8 +171,38 @@ ShellRoot {
                     right: parent.right
                     top: parent.top
                     bottom: parent.bottom
+                    rightMargin: 10
                 }
                 spacing: 10
+
+                //PIPEWIRE
+                Rectangle {
+                    // this code is so spaghetti
+                    id: handler
+                    anchors {
+                        top: parent.top
+                        bottom: parent.bottom
+                        margins: 1
+                    }
+                    property PwNode thing: Pipewire.defaultAudioSink
+                    PwObjectTracker {
+                        objects: [handler.thing]
+                    }
+                    //anchors.leftMargin: 10
+                    radius: 7
+                    width: pipewireText.implicitWidth + 5 * time.anchors.margins
+
+                    height: parent.height
+                    color: fog
+                    Text {
+                        id: pipewireText
+                        anchors.centerIn: parent
+                        font: f
+                        text: parent.thing.nickname + " " + Math.round(parent.thing.audio.volume * 100) + "%"
+                        color: shadow
+                    }
+                }
+
                 // BATTERY
                 Rectangle {
                     anchors {
@@ -169,7 +210,7 @@ ShellRoot {
                         bottom: parent.bottom
                         margins: 1
                     }
-                    anchors.leftMargin: 10
+                    //anchors.leftMargin: 10
                     radius: 7
                     width: 50
                     height: parent.height
@@ -193,7 +234,7 @@ ShellRoot {
                         top: parent.top
                         bottom: parent.bottom
                     }
-                    anchors.rightMargin: 10 + 1
+                    //anchors.rightMargin: 10 + 1
                     radius: 7
                     implicitWidth: time.implicitWidth + 5 * time.anchors.margins
                     height: parent.height
