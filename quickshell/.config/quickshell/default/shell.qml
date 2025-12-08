@@ -2,7 +2,9 @@ import Quickshell
 import QtQuick
 import QtQuick.Effects
 import Quickshell.Hyprland
+import Quickshell.Wayland
 import Quickshell.Services.UPower
+import Quickshell.Services.Mpris
 
 ShellRoot {
     property int edge: 7
@@ -12,11 +14,7 @@ ShellRoot {
 
     readonly property font f: ({
             family: "FiraCodeNerdFont",
-            pointSize: 12
-        })
-    readonly property font fs: ({
-            family: "FiraCodeNerdFont",
-            pointSize: 10
+            pointSize: 10.5
         })
 
     PanelWindow {
@@ -101,7 +99,7 @@ ShellRoot {
                     bottom: parent.bottom
                     top: parent.top
                 }
-                implicitWidth: 184
+                implicitWidth: 184 + 3 * edge
             }
 
             // Workspaces
@@ -125,30 +123,89 @@ ShellRoot {
                         Text {
                             anchors.centerIn: parent
                             text: modelData.id
-                            font: fs
+                            font: f
                             color: Hyprland.focusedWorkspace === modelData ? light : shadow
                         }
                     }
                 }
             }
 
-            // BATTERY
             Rectangle {
                 anchors {
+                    top: parent.top
+                    bottom: parent.bottom
                     left: notch.right
+                    margins: 1
+                }
+                visible: true
+                radius: 12
+                width: 160
+                color: fog
+
+                Repeater {
+                    model: Mpris.players
+                    delegate: Text {
+                        id: innerMusic
+                        font: f
+                        text: modelData.trackTitle
+                        color: shadow
+                        anchors.centerIn: parent
+                    }
+                }
+            }
+
+            // RIGHT SIDE
+            Row {
+                anchors {
+                    right: parent.right
                     top: parent.top
                     bottom: parent.bottom
                 }
-                anchors.leftMargin: 10
-                radius: 12
-                width: 50
-                height: parent.height
-                color: fog
-                Text {
-                    anchors.centerIn: parent
-                    font: f
-                    text: Math.round(UPower.displayDevice.percentage * 100) + "%"
-                    color: shadow
+                spacing: 10
+                // BATTERY
+                Rectangle {
+                    anchors {
+                        top: parent.top
+                        bottom: parent.bottom
+                        margins: 1
+                    }
+                    anchors.leftMargin: 10
+                    radius: 7
+                    width: 50
+                    height: parent.height
+                    color: fog
+                    Text {
+                        anchors.centerIn: parent
+                        font: f
+                        text: Math.round(UPower.displayDevice.percentage * 100) + "%"
+                        color: shadow
+                    }
+                }
+                // CLOCK
+                Rectangle {
+                    MouseArea {
+                        id: clockarea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                    }
+                    anchors {
+                        margins: 1
+                        top: parent.top
+                        bottom: parent.bottom
+                    }
+                    anchors.rightMargin: 10 + 1
+                    radius: 7
+                    implicitWidth: time.implicitWidth + 5 * time.anchors.margins
+                    height: parent.height
+                    color: fog
+                    Text {
+                        id: time
+                        anchors.margins: 3
+                        anchors.centerIn: parent
+                        font: f
+                        text: clockarea.containsMouse ? Qt.formatDateTime(clock.date, "hh:mm:ss") : Qt.formatDateTime(clock.date, "hh:mm")
+                        color: shadow
+                    }
                 }
             }
 
@@ -157,31 +214,6 @@ ShellRoot {
                 id: clock
                 precision: SystemClock.Seconds
             }
-            Rectangle {
-                anchors {
-                    right: parent.right
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-                MouseArea {
-                    id: clockarea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                }
-                anchors.rightMargin: 10
-                radius: 7
-                implicitWidth: time.implicitWidth + 5 * time.anchors.margins
-                height: parent.height
-                color: fog
-                Text {
-                    id: time
-                    anchors.margins: 3
-                    anchors.centerIn: parent
-                    font: f
-                    text: clockarea.containsMouse ? Qt.formatDateTime(clock.date, "hh:mm:ss") : Qt.formatDateTime(clock.date, "hh:mm")
-                    color: shadow
-                }
-            }
 
             // WINDOW
             Rectangle {
@@ -189,8 +221,9 @@ ShellRoot {
                     top: parent.top
                     bottom: parent.bottom
                     right: notch.left
+                    margins: 1
                 }
-                anchors.rightMargin: 10
+                visible: true
                 radius: 12
                 width: innerText.width + 20
                 color: fog
@@ -198,7 +231,7 @@ ShellRoot {
                 Text {
                     id: innerText
                     font: f
-                    text: Hyprland.activeToplevel.title
+                    text: ToplevelManager.activeToplevel.appId
                     color: shadow
                     anchors.centerIn: parent
                 }
