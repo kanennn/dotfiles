@@ -3,11 +3,11 @@ import Quickshell
 import QtQuick
 
 Singleton {
-    readonly property color color: "blue"
     readonly property int edge: 7
-    readonly property color light: "#FFFFFF"
-    readonly property color shadow: "#666666"
-    readonly property color fog: "#EEEEEE"
+    readonly property color shadow: "#CCCCCC"
+    readonly property color fog: "#202020"
+    readonly property color light: "#110d0b"
+    readonly property string mainMonitor: "eDP-1"
 
     readonly property font f: ({
             family: "FiraCodeNerdFont",

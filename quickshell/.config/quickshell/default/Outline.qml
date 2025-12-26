@@ -4,6 +4,8 @@ import QtQuick.Effects
 
 PanelWindow {
     id: root
+    required property ShellScreen monitor
+    screen: monitor
     color: "transparent"
     visible: true
     // WlrLayershell.layer: WlrLayer.Top
@@ -27,7 +29,7 @@ PanelWindow {
         Rectangle {
             anchors.fill: parent
 
-            color: light
+            color: Config.light
 
             layer.enabled: true
 
@@ -57,5 +59,5 @@ PanelWindow {
                 radius: 30
             }
         }
-      }
+    }
 }
