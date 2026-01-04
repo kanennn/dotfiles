@@ -7,9 +7,11 @@ setopt globdots
 unsetopt autocd beep extendedglob
 bindkey -v
 # End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/kanennn/.zshrc'
 
-autoload -Uz compinit
-compinit
+# The following lines were added by compinstall
+# zstyle :compinstall filename '$HOME/.zshrc' #this needs fixing???
+
+# autoload -Uz compinit
+# compinit
+#
 # End of lines added by compinstall
