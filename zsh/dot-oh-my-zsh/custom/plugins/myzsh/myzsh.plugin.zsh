@@ -3,7 +3,7 @@ HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 setopt notify
-setopt globdots
+# setopt globdots
 unsetopt autocd beep extendedglob
 bindkey -v
 
@@ -18,3 +18,4 @@ autoload -Uz zmv
 #
 # End of lines added by compinstall
 alias kssh="kitty +kitten ssh"
+alias stow="stow --dotfiles"
