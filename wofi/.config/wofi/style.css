@@ -1,0 +1,18 @@
+#window {
+	background: black	
+}
+
+#outer-box {
+	background: black;
+	margin: 10px
+}
+
+#text {
+	color: white
+}
+
+#input {
+	background: black;
+	color: white;
+	radius: 10px;
+}

@@ -1,0 +1,11 @@
+show=drun
+
+prompt=what do
+
+matching=multi-contains
+insensitive=true
+gtk_dark=true
+close_on_focus_loss=true
+
+
+normal_window=true
