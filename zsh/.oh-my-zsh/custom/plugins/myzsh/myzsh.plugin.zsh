@@ -6,6 +6,8 @@ setopt notify
 setopt globdots
 unsetopt autocd beep extendedglob
 bindkey -v
+
+autoload -Uz zmv
 # End of lines configured by zsh-newuser-install
 
 # The following lines were added by compinstall
@@ -15,3 +17,4 @@ bindkey -v
 # compinit
 #
 # End of lines added by compinstall
+alias kssh="kitty +kitten ssh"
