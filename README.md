@@ -29,19 +29,26 @@
 - upower
 - pipewire (/pipe-wire-pulse)
 - bluez (bluetooth) 
-- xdg-desktop-portal
+- xdg-desktop-portal (& xdg-desktop-portal-hyprland)
 - brightnessct
+- iwd (as networkmanager backend)
+- xorg-xwayland (specifically for x11 forwarding over ssh)
+- wl-clipboard
 
 ### User Utils
 
 - rustup
+- gcc
 - cargo
 - wiregaurd
+- lua
+- luarocks
 
 ### CLI stuff
 
 - zsh + ohmyzsh
 - nvim
+- emacs
 - fastfetch
 - nnn (term file manager)
 - cage (to run independent gui applications)
@@ -49,13 +56,23 @@
 - stow (for dotfiles
 - ImageMagick
 - rustic-rs 
-- dua-cli
+- dua-cli (disk usage viewer)
+- btop (CPU usage stats)
+- typst 
+- zathura (viewer)
+- ttyper (typing test)
+- hyprshot
+- grim
+- slurp
+- zmv
+
 
 ### GUI Applications
 
-- Librewolf
-- Vesktop
-- Obsidian
+- Librewolf (flatpak)
+- Vesktop (flatpak)
+- Obsidian (flatpak)
+- thunderbird (native)
 
 # Manual Setup
 
@@ -63,6 +80,7 @@
 - Enable notch
 - Add/stow dotfiles
 - Configure grub startup
+- make sure iwd is networkmanager backend
 - Configured GTK and QT themes using gsettings or config files (config more consistent??)
 - Install applications (Flatpak)
 
