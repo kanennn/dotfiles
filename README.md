@@ -4,7 +4,7 @@
 
 - Spacious and easy to navigate
 - Wallpaper adaptive colorscheme
-- Based in Hyprland on Fedora
+- Based in Hyprland on Arch (ARM)
 - Seamless consistent experience -> high fidelity (no unfinished sections or areas with inconsistent style)
 - Cozy bordered + widgets style
 
@@ -89,8 +89,9 @@
 
 - [x] Change all directories to have a "dot-" prefix instead of using hidden folders, along with using GNU Stow --dotfiles
 - [ ] Customize grub
-- [-] Configure nvim
+- [ ] Configure nvim (wip)
 - [ ] Custom zsh config (versus oh-my-zsh)
-- [ ] Custom kitty config (at least learn lol)
+- [ ] Custom kitty config (at least learn lol) (wip)
 - [ ] Organize all this stuff
 - [ ] Make a streamlined package list that can be installed automatically
+- [ ] Complete and consolidate current goals and then make a tag release for *eclipse* and then set goals for next iteration
