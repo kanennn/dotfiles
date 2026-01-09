@@ -43,6 +43,7 @@
 - wiregaurd
 - lua
 - luarocks
+- rustfmt
 
 ### CLI stuff
 
@@ -78,7 +79,7 @@
 
 - Install packages
 - Enable notch
-- Add/stow dotfiles
+- Add/stow dotfiles (make sure to use --dotfiles!!)
 - Configure grub startup
 - make sure iwd is networkmanager backend
 - Configured GTK and QT themes using gsettings or config files (config more consistent??)
@@ -86,7 +87,10 @@
 
 # Todo
 
-- [ ] Change all directories to have a "dot-" prefix instead of using hidden folders, along with using GNU Stow --dotfiles
+- [x] Change all directories to have a "dot-" prefix instead of using hidden folders, along with using GNU Stow --dotfiles
 - [ ] Customize grub
-- [ ] Configure nvim
-
+- [-] Configure nvim
+- [ ] Custom zsh config (versus oh-my-zsh)
+- [ ] Custom kitty config (at least learn lol)
+- [ ] Organize all this stuff
+- [ ] Make a streamlined package list that can be installed automatically
